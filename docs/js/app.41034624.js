@@ -44,8 +44,12 @@
               "div",
               { attrs: { id: "app" } },
               [
-                e("h1", [t._v("TARA-CAM")]), // Main heading
-                e("h2", [t._v("Threat Analysis and Risk Assessment for automotive CAMeras")]), // Subtitle
+                e("h1", [t._v("TARA-CAM")]),
+                e("h2", [
+                  t._v(
+                    "Threat Analysis and Risk Assessment for automotive CAMeras"
+                  ),
+                ]),
                 e("Tast"),
               ],
               1
@@ -4007,27 +4011,38 @@
               };
             },
             async created() {
-              this.aza();
+              await this.aza();
+              this.sortListAscending();
             },
             watch() {},
             methods: {
-              handleSortChange({ column: t, prop: e, order: a }) {
-                if (a)
-                  if ("Layer" == t.label && "descending" == a)
-                    this.all.sort(
-                      (t, e) =>
-                        t.Layer - e.Layer ||
-                        t.Overall_Risk_determination -
-                          e.Overall_Risk_determination
-                    );
-                  else if ("Layer" == t.label && "ascending" == a) {
-                    this.all.reverse(
-                      (t, e) =>
-                        t.Layer - e.Layer ||
-                        t.Overall_Risk_determination -
-                          e.Overall_Risk_determination
-                    );
+              handleSortChange({ column, prop, order }) {
+                if (order) {
+                  if (column.label === "Layer") {
+                    if (order === "ascending") {
+                      this.all.sort(
+                        (a, b) =>
+                          a.Layer - b.Layer ||
+                          a.Overall_Risk_determination -
+                            b.Overall_Risk_determination
+                      );
+                    } else if (order === "descending") {
+                      this.all.sort(
+                        (a, b) =>
+                          b.Layer - a.Layer ||
+                          b.Overall_Risk_determination -
+                            a.Overall_Risk_determination
+                      );
+                    }
                   }
+                }
+              },
+              sortListAscending() {
+                this.all.sort(
+                  (a, b) =>
+                    a.Layer - b.Layer ||
+                    a.Overall_Risk_determination - b.Overall_Risk_determination
+                );
               },
               set_number_ORD() {
                 (this.lineColor = ""),
@@ -4198,8 +4213,8 @@
                 const a = await (0, p.GG)(t);
                 a.forEach((t) => {
                   this.all.push({ id: e, ...t.data() }), e++;
-                }),
-                  this.all.reverse((t, e) => t.data - e.data);
+                });
+                this.all.reverse((t, e) => t.data - e.data);
               },
               async after_login() {
                 const t = (0, p.P)(
