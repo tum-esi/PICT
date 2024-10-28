@@ -40,7 +40,16 @@
           r = function () {
             var t = this,
               e = t._self._c;
-            return e("div", { attrs: { id: "app" } }, [e("Tast")], 1);
+            return e(
+              "div",
+              { attrs: { id: "app" } },
+              [
+                e("h1", [t._v("TARA-CAM")]), // Main heading
+                e("h2", [t._v("Threat Analysis and Risk Assessment for automotive CAMeras")]), // Subtitle
+                e("Tast"),
+              ],
+              1
+            );
           },
           s = [],
           n = function () {
@@ -852,6 +861,11 @@
                               },
                             ],
                             staticClass: "btn_sub",
+                            style: {
+                              backgroundColor: "#ffffff",
+                              color: "#ffffff",
+                              border: "none",
+                            },
                             attrs: { type: "primary" },
                             on: {
                               click: function (e) {
@@ -2225,8 +2239,8 @@
                                     return [
                                       e("span", {
                                         domProps: {
-                                          innerHTML: a.row.Work
-                                        }
+                                          innerHTML: a.row.Work,
+                                        },
                                       }),
                                     ];
                                   },
@@ -2305,9 +2319,7 @@
                                         return [
                                           "3" === a.row.AttackEntryPoint
                                             ? e("span", [
-                                                t._v(
-                                                  " Sensor / Data"
-                                                ),
+                                                t._v(" Sensor / Data"),
                                               ])
                                             : "2" === a.row.AttackEntryPoint
                                             ? e("span", [
