@@ -10,7 +10,7 @@ This image sensor testbed contains multiple tools to capture, analyze and work w
 * [Camera Module 3 Wide](https://www.raspberrypi.com/documentation/accessories/camera.html)
 * [Raspberry Pi OS](https://www.raspberrypi.com/software/)
 
-The following sections highlight the individual tools
+The following sections highlight the individual tools.
 
 ## `camWrapper.py`
 
@@ -91,3 +91,9 @@ python imageDetection.py <image> [<x1,y1> <x2,y2>]
 ### FAQ
 * The tool complains, that my ROI is not working
     * Make sure, that the ROI follows the [Bayer pattern](https://en.wikipedia.org/wiki/Bayer_filter), e.g., the upper left corner will have only even coordinates and the lower right corner will have only odd coordinates.
+
+# TARA-CAM
+
+In addition to [PICT](#pict-pict-is-an-image-capture-testbed), we provide [TARA-CAM](https://tum-esi.github.io/PICT/), a tool about Threat Analysis and Risk Assessment for automotive CAMeras. It is an interactive online tool, that is accessible through a separate [homepage](https://tum-esi.github.io/PICT/). TARA-CAM supports the threat analysis and risk assessment according to ISO 21434, an automotive cyber-security standard.
+
+The analysis of new attacks is possible by entering the respective parameters in the top. By submitting the results, the analysis is sent for review. This allows new attacks to be added persistently to the database.
