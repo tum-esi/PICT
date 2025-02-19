@@ -2955,7 +2955,7 @@
                   {
                     ImpactRating: "Severe",
                     Criteria:
-                      "S3:The operational damage leads to the loss or impairment of a core vehicle function.",
+                      "The operational damage leads to the loss or impairment of a core vehicle function.",
                     Numericalrepresentation: "3",
                   },
                   {
@@ -3428,14 +3428,14 @@
                   {
                     ThreatModel: "Gray-Box",
                     Description:
-                      "The operational damage leads to the loss or impairment of an important vehicle function.",
-                    Numericalrepresentation: "2",
+                      "Attacker has partial access to the target system for attack development.",
+                    Numericalrepresentation: "5",
                   },
                   {
                     ThreatModel: "White-Box",
                     Description:
-                      "The operational damage leads to partial degradation of a vehicle function.",
-                    Numericalrepresentation: "1",
+                      "Attacker has full access to the target system for attack development.",
+                    Numericalrepresentation: "11",
                   },
                 ],
               };
