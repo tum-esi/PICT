@@ -20,13 +20,17 @@ class JpegImageComparison:
         self.STORAGE_FILENAME = STORAGE_FOLDER + SEP_CHAR + image1Path.split(SEP_CHAR)[-1] + "__" + image2Path.split(SEP_CHAR)[-1]
 
         image1Jpeg = PIL.Image.open(image1Path)
+        if image1Jpeg.mode == "RGBA":
+            image1Jpeg = image1Jpeg.convert("RGB")
         image2Jpeg = PIL.Image.open(image2Path)
+        if image2Jpeg.mode == "RGBA":
+            image2Jpeg = image2Jpeg.convert("RGB")
 
         self.image1Path = image1Path
         self.image2Path = image2Path
 
         if image1Jpeg.mode != "RGB" or image2Jpeg.mode != "RGB":
-            print("Only RGB images are supported. Image 1 has {image1Jpeg.mode} and Image 2 has {image2Jpeg.mode}")
+            print(f"Only RGB images are supported. Image 1 has {image1Jpeg.mode} and Image 2 has {image2Jpeg.mode}")
             return
 
         # Np format: (H x W x 3)
@@ -173,42 +177,42 @@ class JpegImageComparison:
         plt.clf()
         # Hist image 1, R
         plt.subplot(2, 3, 1)
-        plt.title("[R] Historgram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
+        plt.title("[R] Histogram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
         plt.hist(self.image1Np[:,:,0].flatten(), bins=range(np.min(self.image1Np), np.max(self.image1Np) + 1, 1), color='r')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist image 1, G
         plt.subplot(2, 3, 2)
-        plt.title("[G] Historgram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
+        plt.title("[G] Histogram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
         plt.hist(self.image1Np[:,:,1].flatten(), bins=range(np.min(self.image1Np), np.max(self.image1Np) + 1, 1), color='g')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist image 1, B
         plt.subplot(2, 3, 3)
-        plt.title("[B] Historgram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
+        plt.title("[B] Histogram of Image 1\n" + self.image1Path.split(SEP_CHAR)[-1])
         plt.hist(self.image1Np[:,:,2].flatten(), bins=range(np.min(self.image1Np), np.max(self.image1Np) + 1, 1), color='b')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist image 2, R
         plt.subplot(2, 3, 4)
-        plt.title("[R] Historgram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
+        plt.title("[R] Histogram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
         plt.hist(self.image2Np[:,:,0].flatten(), bins=range(np.min(self.image2Np), np.max(self.image2Np) + 1, 1), color='r')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist image 2, G
         plt.subplot(2, 3, 5)
-        plt.title("[G] Historgram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
+        plt.title("[G] Histogram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
         plt.hist(self.image2Np[:,:,1].flatten(), bins=range(np.min(self.image2Np), np.max(self.image2Np) + 1, 1), color='g')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist image 2, B
         plt.subplot(2, 3, 6)
-        plt.title("[B] Historgram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
+        plt.title("[B] Histogram of Image 2\n" + self.image2Path.split(SEP_CHAR)[-1])
         plt.hist(self.image2Np[:,:,2].flatten(), bins=range(np.min(self.image2Np), np.max(self.image2Np) + 1, 1), color='b')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
@@ -244,21 +248,21 @@ class JpegImageComparison:
 
         # Hist diff, R
         plt.subplot(2, 3, 4)
-        plt.title("[R] Historgram of Absolute Diff\n")
+        plt.title("[R] Histogram of Absolute Diff\n")
         plt.hist(self.diff[:,:,0].flatten(), bins=range(np.min(self.diff), np.max(self.diff) + 1, 1), color='r')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist diff, G
         plt.subplot(2, 3, 5)
-        plt.title("[G] Historgram of Absolute Diff\n")
+        plt.title("[G] Histogram of Absolute Diff\n")
         plt.hist(self.diff[:,:,1].flatten(), bins=range(np.min(self.diff), np.max(self.diff) + 1, 1), color='g')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
         
         # Hist diff, B
         plt.subplot(2, 3, 6)
-        plt.title("[B] Historgram of Absolute Diff\n")
+        plt.title("[B] Histogram of Absolute Diff\n")
         plt.hist(self.diff[:,:,2].flatten(), bins=range(np.min(self.diff), np.max(self.diff) + 1, 1), color='b')
         plt.xlabel("Intensity [DN]")
         plt.ylabel("Amount")
@@ -335,21 +339,21 @@ def compareRawVsRaw(image1Path: str, image2Path: str, upperLeft=(0,0), lowerRigh
 
     # Hist1
     plt.subplot(2, 3, 4)
-    plt.title("Historgram of Image 1\n" + image1Path.split(SEP_CHAR)[-1])
+    plt.title("Histogram of Image 1\n" + image1Path.split(SEP_CHAR)[-1])
     plt.hist(image1Np.flatten(), bins=range(np.min(image1Np), np.max(image1Np) + 1, 1))
     plt.xlabel("Intensity [DN]")
     plt.ylabel("Amount")
 
     # Hist2
     plt.subplot(2, 3, 5)
-    plt.title("Historgram of Image 2\n" + image2Path.split(SEP_CHAR)[-1])
+    plt.title("Histogram of Image 2\n" + image2Path.split(SEP_CHAR)[-1])
     plt.hist(image2Np.flatten(), bins=range(np.min(image2Np), np.max(image2Np) + 1, 1))
     plt.xlabel("Intensity [DN]")
     plt.ylabel("Amount")
 
     # Diff
     plt.subplot(2, 3, 6)
-    plt.title("Historgram of Absolute Diff\nImage1 - Image2")
+    plt.title("Histogram of Absolute Diff\nImage1 - Image2")
     plt.hist(diff.flatten(), bins=range(np.min(diff), np.max(diff) + 1, 1))
     plt.xlabel("Intensity [DN]")
     plt.ylabel("Amount")
@@ -410,10 +414,13 @@ def main(image1Path: str, image2Path: str, upperLeft=(0,0), lowerRight=(0,0)):
     if not os.path.isdir(STORAGE_FOLDER):
         os.mkdir(STORAGE_FOLDER)
 
-    if image1Path.endswith(".dng") and image2Path.endswith(".dng"):
+    if image1Path.lower().endswith(".dng") and image2Path.lower().endswith(".dng"):
         compareRawVsRaw(image1Path, image2Path, upperLeft, lowerRight)
-    if (image1Path.endswith(".jpg") or image1Path.endswith(".jpeg")) and \
-       (image2Path.endswith(".jpg") or image2Path.endswith(".jpeg")):
+    if (image1Path.lower().endswith(".jpg") or image1Path.lower().endswith(".jpeg")) and \
+       (image2Path.lower().endswith(".jpg") or image2Path.lower().endswith(".jpeg")):
+        compare = JpegImageComparison()
+        compare.compareJpegVsJpeg(image1Path, image2Path, upperLeft, lowerRight)
+    if image1Path.lower().endswith(".png") and image2Path.lower().endswith(".png"):
         compare = JpegImageComparison()
         compare.compareJpegVsJpeg(image1Path, image2Path, upperLeft, lowerRight)
 

@@ -43,17 +43,18 @@ HDR_ROW             = 6 + ROW_OFFSET
 METERING_ROW        = 7 + ROW_OFFSET
 EXPOSURE_MODE_ROW   = 8 + ROW_OFFSET
 EXP_COMPENSATION_ROW = 9 + ROW_OFFSET
-AWB_ROW             = 10 + ROW_OFFSET
-AWB_GAINS_ROW       = 11 + ROW_OFFSET
-AUTOFOCUS_MODE_ROW  = 12 + ROW_OFFSET
-AUTOFOCUS_RANGE_ROW = 13 + ROW_OFFSET
-AUTOFOCUS_SPEED_ROW = 14 + ROW_OFFSET
-BRIGHTNESS_ROW      = 15 + ROW_OFFSET
-CONTRAST_ROW        = 16 + ROW_OFFSET
-SATURATION_ROW      = 17 + ROW_OFFSET
-SHARPNESS_ROW       = 18 + ROW_OFFSET
-DENOISE_ROW         = 19 + ROW_OFFSET
-QUALITY_ROW         = 20 + ROW_OFFSET
+EXP_FLICKER_ROW     = 10 + ROW_OFFSET
+AWB_ROW             = 11 + ROW_OFFSET
+AWB_GAINS_ROW       = 12 + ROW_OFFSET
+AUTOFOCUS_MODE_ROW  = 13 + ROW_OFFSET
+AUTOFOCUS_RANGE_ROW = 14 + ROW_OFFSET
+AUTOFOCUS_SPEED_ROW = 15 + ROW_OFFSET
+BRIGHTNESS_ROW      = 16 + ROW_OFFSET
+CONTRAST_ROW        = 17 + ROW_OFFSET
+SATURATION_ROW      = 18 + ROW_OFFSET
+SHARPNESS_ROW       = 19 + ROW_OFFSET
+DENOISE_ROW         = 20 + ROW_OFFSET
+QUALITY_ROW         = 21 + ROW_OFFSET
 
 
 def argumentWrapper(parameter: str, value=''):
@@ -204,6 +205,11 @@ def captureImage(preview: bool, config: dict, cameraIndex: int):
     if config["expCompensationValue"] != "0" and 'ExposureValue' in availableCameraControls:
         picam.set_controls({'ExposureValue': float(config["expCompensationValue"])})
 
+    # Set exposure flicker period
+    if config["expFlickerValue"] != "0" and 'AeFlickerPeriod' in availableCameraControls:
+        picam.set_controls({'AeFlickerMode': controls.AeFlickerModeEnum.Manual})
+        picam.set_controls({'AeFlickerPeriod': int(config["expFlickerValue"])})
+
     # Set AWB
     if config["awbValue"] == "auto" and 'AwbMode' in availableCameraControls:
         picam.set_controls({'AwbMode': controls.AwbModeEnum.Auto})
@@ -255,7 +261,7 @@ def captureImage(preview: bool, config: dict, cameraIndex: int):
     for i in range(config["imageAmountValue"]):
         print("capture image " + str(i) + " from camera " + config["camera_model"] + " at " + str(datetime.now()))
         picam.start()
-        time.sleep(0.2) # Otherwise setting of the DigitalGain fails
+        time.sleep(0.6) # Otherwise setting of the DigitalGain fails
         
         if fullyControllableCamera:
             buffers, metadata = picam.switch_mode_and_capture_buffers(camera_config, ["main", "raw"])
@@ -474,6 +480,17 @@ class GUI_Main(QMainWindow):
             expCompensationValue.setToolTip("0 = ignore this parameter")
             expCompensationValue.setObjectName(getVarName(expCompensationValue)[-1])
             tab.layout.addWidget(expCompensationValue, EXP_COMPENSATION_ROW, VALUE_COL)
+
+            # Exposure flicker period options
+            expFlickerLabel = QLabel()
+            expFlickerLabel.setText("Exposure Flicker Period [us]")
+            tab.layout.addWidget(expFlickerLabel, EXP_FLICKER_ROW, LABEL_COL)
+            expFlickerValue = QLineEdit()
+            expFlickerValue.setText(str(0))
+            expFlickerValue.setFixedWidth(200)
+            expFlickerValue.setToolTip("0 = ignore this parameter")
+            expFlickerValue.setObjectName(getVarName(expFlickerValue)[-1])
+            tab.layout.addWidget(expFlickerValue, EXP_FLICKER_ROW, VALUE_COL)
 
             # AWB options
             awbLabel = QLabel()
